@@ -12,6 +12,7 @@ Gem::Specification.new do |spec|
   spec.summary       = %q{Customize STI type column}
   spec.description   = %q{Customize STI type column}
   spec.homepage      = "https://github.com/sti_type_customizable"
+  spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
   spec.bindir        = "exe"
