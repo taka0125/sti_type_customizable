@@ -7,11 +7,12 @@ module StiTypeCustomizable
 
   included do
     class_attribute :sti_type_value
+    class_attribute :sti_entities
   end
 
   class_methods do
     def sti_child_classes(classes)
-      @sti_entities ||= begin
+      self::sti_entities ||= begin
         {}.tap do |entities|
           classes.each do |klass|
             raise NotImplementedError unless klass.include? StiTypeCustomizable
@@ -23,11 +24,11 @@ module StiTypeCustomizable
     end
 
     def find_sti_class(type)
-      @sti_entities[type] || self
+      self::sti_entities[type] || self
     end
 
     def sti_name
-      @sti_entities.invert[self] || self::sti_type_value
+      self::sti_entities.invert[self] || self::sti_type_value
     end
   end
 end
