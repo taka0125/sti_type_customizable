@@ -58,6 +58,20 @@ class ErrorMessage < Message
 end
 ```
 
+## Having a trouble...?
+
+```
+Error: Circular dependency detected while autoloading constant
+`````
+
+First, try config/initializers
+
+```
+Rails.application.config.to_prepare do
+  require Rails.root.join('app', 'models', '<STI_CLASS>')
+end
+````
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
