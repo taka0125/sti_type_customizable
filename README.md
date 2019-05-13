@@ -36,41 +36,33 @@ class ErrorMessage < Message
 end
 ```
 
-
 - type to integer sample
 
 ```ruby
-# type: 0
 class Message < ActiveRecord::Base
   include StiTypeCustomizable
-  self.sti_type_value = 0
-  sti_child_classes [WarningMessage, ErrorMessage]
+  
+  self.sti_resolver = Resolver.new
 end
 
-# type: 1
 class WarningMessage < Message
-  self.sti_type_value = 1
 end
 
-# type: 2
 class ErrorMessage < Message
-  self.sti_type_value = 2
 end
-```
 
-## Having a trouble...?
+class Resolver
+  include StiTypeCustomizable::Resolver
 
-```
-Error: Circular dependency detected while autoloading constant
-`````
-
-First, try config/initializers
-
-```
-Rails.application.config.to_prepare do
-  require Rails.root.join('app', 'models', '<STI_CLASS>')
+  def definitions
+    @definitions ||= {
+      warning_message: 1,
+      error_message: 2
+    }
+  end
 end
-````
+
+```
 
 ## Development
 
