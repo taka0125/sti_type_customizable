@@ -2,6 +2,10 @@
 
 Customize STI type column.
 
+## Status
+
+[![Actions Status](https://github.com/taka0125/sti_type_customizable/workflows/Ruby/badge.svg)](https://github.com/taka0125/sti_type_customizable/actions)
+
 ## Installation
 
 Add this line to your application's Gemfile:
