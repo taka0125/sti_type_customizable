@@ -1,34 +1,28 @@
 # frozen_string_literal: true
 require "sti_type_customizable/version"
-require "active_support/concern"
+require "sti_type_customizable/definition"
+
+require "active_support"
+require "active_support/core_ext"
 
 module StiTypeCustomizable
   extend ActiveSupport::Concern
 
   included do
-    class_attribute :sti_type_value
-    class_attribute :sti_entities
+    cattr_accessor :_sti_definition, instance_accessor: false
   end
 
   class_methods do
-    def sti_child_classes(classes)
-      self::sti_entities ||= begin
-        {}.tap do |entities|
-          classes.each do |klass|
-            raise NotImplementedError unless klass.include? StiTypeCustomizable
-
-            entities[klass.sti_type_value] = klass
-          end
-        end
-      end
+    def sti_definition(definition)
+      self._sti_definition = definition
     end
 
     def find_sti_class(type)
-      self::sti_entities[type] || self
+      self._sti_definition.resolve_class(type) || self
     end
 
     def sti_name
-      self::sti_entities.invert[self] || self::sti_type_value
+      self._sti_definition.resolve_type_value(self)
     end
   end
 end
